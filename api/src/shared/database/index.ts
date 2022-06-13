@@ -12,3 +12,5 @@ mongoose.connect(config.mongo.connectionLink, {
   console.error(err);
   process.exit(1);
 });
+
+export * from './entities';

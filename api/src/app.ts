@@ -1,5 +1,5 @@
 import Fastify from 'fastify';
-import * as MainRouter from './endpoints/main/main.router';
+import * as MainRouter from './endpoints/main';
 
 
 async function main() {

@@ -1,4 +1,10 @@
 
+export interface inputSchema {
+  body: {
+    number: number;
+  }
+}
+
 export const inputSchema = {
   body: {
     type: 'object',
@@ -19,6 +25,14 @@ export const inputSchema = {
     },
   }
 };
+
+
+// better to separate this file
+export interface outputSchema {
+  querystring: {
+    ticket: number;
+  }
+}
 
 export const outputSchema = {
   querystring: {
