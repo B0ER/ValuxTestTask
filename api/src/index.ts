@@ -1,2 +1,3 @@
-console.log('check build');
-console.log('test');
+import './shared/configs';
+import './shared/database';
+import './app';
