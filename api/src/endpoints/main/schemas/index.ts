@@ -11,6 +11,8 @@ export const inputSchema = {
     properties: {
       number: {
         type: 'number',
+        minimum: 1,
+        maximum: 200,
       },
     },
   },

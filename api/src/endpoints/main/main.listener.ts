@@ -17,7 +17,16 @@ const memoize = (fn: Function) => {
   };
 };
 
-const fibonacci = (inputValue: number): number => (inputValue <= 2 ? 1 : fibonacci(inputValue - 1) + fibonacci(inputValue - 2));
+const fibonacci = async (inputValue: number): Promise<number> => {
+  if (inputValue <= 2) {
+    return 1;
+  }
+
+  const left = await new Promise<number>((res, rej) => { setImmediate(() => { res(memoizeFibonacci(inputValue - 1)); }) });
+  const right = await new Promise<number>((res, rej) => { setImmediate(() => { res(memoizeFibonacci(inputValue - 2)); }) });
+
+  return left + right;
+};
 
 const memoizeFibonacci = memoize(fibonacci);
 
@@ -28,7 +37,7 @@ subscriber.on('error', (err) => console.log('Redis Client[Subscriber] Error', er
 
 subscriber.connect().then(async () => {
   await subscriber.pSubscribe('tickets.*', async (message) => {
-    console.log('Subscriber: ');
+    console.log('Subscriber Started');
     const messageObj: { ticket: number, inputValue: number } = JSON.parse(message);
 
     const ticketDoc = await Ticket.model.findOne({ ticket: messageObj.ticket });
@@ -37,10 +46,11 @@ subscriber.connect().then(async () => {
       return;
     }
 
-    const calculatedValue = memoizeFibonacci(messageObj.inputValue);
+    const calculatedValue = await memoizeFibonacci(messageObj.inputValue);
 
     ticketDoc.outputValue = calculatedValue;
 
     await ticketDoc.save();
+    console.log('Subscriber Finished');
   });
 });
