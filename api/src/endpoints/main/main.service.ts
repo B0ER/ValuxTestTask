@@ -9,7 +9,7 @@ export class MainService {
     const newTicket = new Ticket.model({ inputValue: number, ticket: lastTicket ? lastTicket.ticket + 1 : 1 });
 
     await redis.connect();
-    await redis.set(`tickets.${newTicket.ticket}`, newTicket.inputValue);
+    await redis.publish(`tickets.${newTicket.ticket}`, JSON.stringify({ ticket: newTicket.ticket, inputValue: newTicket.inputValue }));
     await redis.disconnect();
 
     await newTicket.save();
