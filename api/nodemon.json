@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/nodemon.json",
+  "ignore": [
+    ".git",
+    "node_modules/*"
+  ],
+  "events": {
+  },
+  "ext": "ts,js",
+  "watch": [
+    "src/"
+  ],
+  "execMap": {
+    "ts": "npm run clean && npm run build:dev && echo '--- --- New Build --- ---' && node --inspect=0.0.0.0:9229 ./dist"
+  },
+  "legacyWatch": true
+}

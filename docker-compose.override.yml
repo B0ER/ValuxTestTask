@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  api:
+    image: valux-test:development
+    build:
+      context: ./api
+      dockerfile: dockerfile
+      target: development
+    volumes:
+      - ./api/:/home/node/api
+      - /home/node/api/node_modules
+    ports:
+      - 9229:9229
+
+  mongo:
+    image: mongo:5.0
+    restart: unless-stopped
+    volumes:
+      - ./docker/mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  mongo-express:
+    image: mongo-express:latest
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/

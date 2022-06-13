@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
+    "declaration": true,
+    "declarationMap": true,                                /* Create source map files for emitted JavaScript files. */
+  }
+}
